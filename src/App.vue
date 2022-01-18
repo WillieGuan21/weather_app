@@ -22,6 +22,10 @@
         <!-- weather info -->
         <div class="weather-box">
           <div class="temperature">{{ Math.round(weather.main.temp) }}°C</div>
+          <div class="range">
+            <div>H:{{ Math.round(weather.main.temp_max) }}°C</div>
+            <div>L:{{ Math.round(weather.main.temp_min) }}°C</div>
+          </div>
           <div class="weather">{{ weather.weather[0].main }}</div>
         </div>
       </div>
@@ -40,13 +44,13 @@ export default {
   setup() {
     const api_key = ref(process.env.VUE_APP_WEATHER_KEY);
     const base_url = ref("https://api.openweathermap.org/data/2.5/");
-    const query = ref("Taichung");
+    const query = ref("Taipei");
     const weather = ref({});
     const fetchWeather = () => {
       axios
         .get(`${base_url.value}weather?q=${query.value}&units=metric&APPID=${api_key.value}`)
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           weather.value = res.data;
         });
     };
@@ -141,5 +145,17 @@ export default {
   font-weight: 700;
   font-style: italic;
   text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
+}
+.weather-box .range {
+  margin-top: 15px;
+  color: #fff;
+  font-weight: 700;
+  font-style: italic;
+  display: flex;
+  justify-content: center;
+}
+
+.weather-box .range div {
+  margin: 10px;
 }
 </style>
